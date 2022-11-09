@@ -14,7 +14,7 @@ message="|${message_mid}|"
 while :
     do
 t1=$(date +%s)
-./client.o $s_pid $message
+./client $s_pid $message
 t2=$(date +%s)
 t_sec=$(expr $t2 - $t1)
 c_sec=$(expr $charnum / $t_sec)

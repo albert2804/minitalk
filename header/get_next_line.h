@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aestraic <aestraic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:26:10 by aestraic          #+#    #+#             */
-/*   Updated: 2022/06/08 17:01:01 by aestraic         ###   ########.fr       */
+/*   Updated: 2022/08/19 15:22:03 by aestraic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
 # include <stdarg.h>
-# include <libft.h>
+# include <stdio.h>
 
-int		ft_printf(const char *s, ...);
-int		ft_conv_character(va_list arg_list);
-int		ft_conv_int(va_list arg_list);
-int		ft_conv_str(va_list arg_list);
-int		ft_conv_hex1(va_list arg_list, int k);
-int		ft_conv_pointer(va_list arg_list);
-int		ft_conv_unsigned(va_list arg_list);
-char	*ft_itoa_u(unsigned int n);
-int		ft_digit_count_u(unsigned int n);
-void	ft_create_string_u(char *str, unsigned int n);
-
+char	*get_next_line(int fd);
+size_t	ft_strlen_gnl(char *c);
+char	*ft_strchr_gnl(char *s, int c);
+char	*ft_strjoin_gnl(char *s1, char *s2, int i, int j);
+int		ft_check_for_newline_in_buffer(char *buffer);
+char	*make_line(char	*buffer);
+char	*make_new_buffer(char *read, int *a);
+void	read_into_buffer(int fd, char **buffer_ret, int *a);
+char	*ft_strdup_gnl(char *s);
 #endif
