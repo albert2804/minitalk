@@ -6,7 +6,7 @@
 /*   By: aestraic <aestraic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:56:43 by aestraic          #+#    #+#             */
-/*   Updated: 2023/01/04 16:10:21 by aestraic         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:18:05 by aestraic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv)
 	int		pid_s;
 
 	pid_s = ft_atoi(argv[1]);
-	if (pid_s < 1 || !argv[2][0] || argc != 3)
+	if (pid_s < 1 || argc != 3 || !argv[2][0])
 	{
 		ft_printf(MESSAGE);
 		return (0);
