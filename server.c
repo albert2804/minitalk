@@ -6,17 +6,11 @@
 /*   By: aestraic <aestraic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:56:46 by aestraic          #+#    #+#             */
-/*   Updated: 2022/11/08 16:17:17 by aestraic         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:04:31 by aestraic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <libft.h>
+#include <minitalk.h>
 
 void	signal_handler(int binary)
 {
@@ -30,26 +24,42 @@ void	signal_handler(int binary)
 		ascii_code = 0;
 		i = 7;
 	}
-	if (binary == SIGUSR1)//transforms the binaries into asciicode
+	if (binary == SIGUSR1)
 		ascii_code += 1 << i;
 	if (pid_flag == 1 && i == 0)
-		pid_c = ((pid_c * 10) + ascii_code) - '0';
+		pid_c = ((pid_c * 10) + ascii_code - '0');
 	if (i == 0 && ascii_code != 0 && pid_flag == 0)
 		ft_printf("%c", ascii_code);
-	else if (i == 0 && ascii_code == 0) //if 8 zeros are send this condition is true
-	{									// and pid_flag is set to 1
-		if (pid_flag == 1)					//check if pid was sent to server
-		{									//if so, make pid flag to zero, so 
-											// it's possible to run client.o again
-			pid_flag = 0;
-			kill ((pid_c + 48)/10, SIGUSR1);	// send signal to client,
-			pid_c = 0;							// because the calculated pid is wrong
-			usleep(80);							// by the factor times 10 - 48 bigger,
-		}										// there has to be a correcting factor
-		else if (pid_flag == 0)
-			pid_flag = 1;
+	else if (i == 0 && ascii_code == 0)
+	{
+		pid_flag = send_message_to_client(pid_flag, pid_c);
+		if (pid_flag == 1)
+			pid_c = 0;
 	}
 	i --;
+}
+
+/**
+ check if pid was sent to server
+ if so, make pid flag to zero, so 
+ it's possible to run client.o again
+ send signal to client,
+ because the calculated pid is wrong
+ by the factor times 10 - 48 bigger,
+ there has to be a correcting factor
+*/
+int	send_message_to_client(int pid_flag, int pid_c)
+{
+	if (pid_flag == 1)
+	{
+		pid_flag = 0;
+		kill ((pid_c + 48) / 10, SIGUSR1);
+		pid_c = 0;
+		usleep (80);
+	}									
+	else if (pid_flag == 0)
+		pid_flag = 1;
+	return (pid_flag);
 }
 
 int	main(void)
