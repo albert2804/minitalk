@@ -6,7 +6,7 @@
 /*   By: aestraic <aestraic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:56:43 by aestraic          #+#    #+#             */
-/*   Updated: 2023/01/04 16:18:05 by aestraic         ###   ########.fr       */
+/*   Updated: 2023/01/11 15:16:04 by aestraic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_send_message(char *character, int pid_s)
 	int	i;
 
 	j = 0;
-	i = 0;
+	i = -1;
 	while (character[j] != '\0')
 	{
 		i = 7;
@@ -53,12 +53,12 @@ int	main(int argc, char **argv)
 	char	*pid_c;
 	int		pid_s;
 
-	pid_s = ft_atoi(argv[1]);
-	if (pid_s < 1 || argc != 3 || !argv[2][0])
+	if (argc != 3 || ft_atoi(argv[1]) < 1)
 	{
 		ft_printf(MESSAGE);
 		return (0);
 	}
+	pid_s = ft_atoi(argv[1]);
 	pid_c = ft_itoa(getpid());
 	signal(SIGUSR1, signal_handler);
 	ft_send_message(argv[2], pid_s);
